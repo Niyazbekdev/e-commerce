@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Services\BaseServices;
+use Illuminate\Validation\ValidationException;
+
+class {{ class }} extends BaseServices
+{
+    public function rules(): array
+    {
+        return [];
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function execute(array $data): array
+    {
+        $this->validate($data);
+
+        return $data;
+    }
+}
