@@ -6,7 +6,6 @@ use {{ namespacedUserModel }};
 
 class {{ class }}
 {
-
     public function __construct()
     {
         //

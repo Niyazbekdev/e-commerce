@@ -9,7 +9,6 @@ use {{ namespacedParentModel }};
 
 class {{ class }} extends Controller
 {
-
     public function store(Request $request, {{ parentModel }} ${{ parentModelVariable }}): never
     {
         abort(404);

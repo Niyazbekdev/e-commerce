@@ -6,7 +6,6 @@ use {{ namespacedModel }};
 
 class {{ class }}
 {
-
     public function created({{ model }} ${{ modelVariable }}): void
     {
         //
