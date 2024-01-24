@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Attribute;
 use App\Models\Value;
 use Illuminate\Database\Seeder;
 
@@ -9,32 +10,31 @@ class ValueSeeder extends Seeder
 {
     public function run(): void
     {
-        Value::create([
-            'attribute_id' => 1,
+        $attribute1 = Attribute::find(1);
+        $attribute1->values()->create([
             'name' => [
                 'kaa' => 'aq',
                 'en' => 'red'
             ]
         ]);
 
-        Value::create([
-            'attribute_id' => 1,
+        $attribute1->values()->create([
             'name' => [
                 'kaa' => 'qara',
                 'en' => 'black'
             ]
         ]);
 
-        Value::create([
-            'attribute_id' => 2,
+        $attribute2 = Attribute::find(2);
+
+        $attribute2->values()->create([
             'name' => [
                 'kaa' => 'MDF',
                 'en' => 'MDF'
             ]
         ]);
 
-        Value::create([
-            'attribute_id' => 2,
+        $attribute2->values()->create([
             'name' => [
                 'kaa' => 'LDSP',
                 'en' => 'LDSP'

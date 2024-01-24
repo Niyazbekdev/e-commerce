@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\UserAddress;
+use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
@@ -18,9 +19,16 @@ class OrderController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
-        return auth()->user()->orders;
+        if (request()->has('status_id')){
+            return $this->response(
+                OrderResource::collection(auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10))
+            );
+        }
+        return $this->response(
+            OrderResource::collection(auth()->user()->orders()->paginate(10))
+        );
     }
 
     public function store(StoreOrderRequest $request)
@@ -67,19 +75,18 @@ class OrderController extends Controller
                 }
             }
 
-            return true;
+            return $this->success('order created', $order);
         }else{
-        return response([
-            'success' => false,
-            'message' => 'some product not found or does not have in inventory',
-            'notFoundProducts' => $notFoundProducts,
-        ]);
+        return $this->error(
+            'some product not found or does not have in inventory',
+            ['not_found_products' => $notFoundProducts]
+        );
         }
     }
 
-    public function show(Order $order)
+    public function show(Order $order): JsonResponse
     {
-        return new OrderResource($order);
+        return $this->response(new OrderResource($order));
     }
 
     public function update(UpdateOrderRequest $request, Order $order)

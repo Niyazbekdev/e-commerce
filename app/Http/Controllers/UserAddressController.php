@@ -6,6 +6,7 @@ use App\Models\UserAddress;
 use App\Http\Requests\StoreUserAddressRequest;
 use App\Http\Requests\UpdateUserAddressRequest;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 
 class UserAddressController extends Controller
 {
@@ -14,14 +15,14 @@ class UserAddressController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function index(): Collection
+    public function index(): JsonResponse
     {
-        return auth()->user()->addresses;
+        return $this->response(auth()->user()->addresses);
     }
 
     public function store(StoreUserAddressRequest $request)
     {
-        auth()->user()->addresses()->create($request->toArray());
-        return true;
+        $address = auth()->user()->addresses()->create($request->toArray());
+        return $this->success('shipping address created', $address);
     }
 }

@@ -10,10 +10,12 @@ use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\StatusOrderController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserPaymentCardController;
+use App\Http\Controllers\UserSettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
@@ -35,4 +37,6 @@ Route::apiResources([
     'user-cards' => UserPaymentCardController::class,
     'reviews' => ReviewController::class,
     'products.reviews' => ProductReviewController::class,
+    'settings' => SettingController::class,
+    'user-settings' => UserSettingController::class
 ]);

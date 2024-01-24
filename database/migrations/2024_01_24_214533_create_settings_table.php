@@ -6,19 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     public function up(): void
     {
-        Schema::create('values', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->morphs('valueable');
-            $table->string('name');
+            $table->text('name');
+            $table->enum('type', ['switch', 'select']);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('values');
+        Schema::dropIfExists('settings');
     }
 };
