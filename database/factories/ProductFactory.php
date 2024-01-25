@@ -9,7 +9,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'category_id' => rand(1,2),
+            'category_id' => rand(1,6),
             'name' => [
                 'kaa' => fake()->sentence(3),
                 'en' => fake()->sentence(3)

@@ -10,10 +10,38 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        Category::create([
+        $category = Category::create([
+            'name' => [
+                'kaa' => 'mebel',
+                'en' => 'mebel',
+            ]
+        ]);
+
+        $category->childCategories()->create([
             'name' => [
                 'kaa' => 'stol',
-                'en' => 'chair',
+                'en' => 'stol'
+            ]
+        ]);
+
+        $childCategory = $category->childCategories()->create([
+            'name' => [
+                'kaa' => 'stul',
+                'en' => 'chair'
+            ]
+        ]);
+
+        $childCategory->childCategories()->create([
+            'name' => [
+                'kaa' => 'oyin stuli',
+                'en' => 'game chair'
+            ]
+        ]);
+
+        $childCategory->childCategories()->create([
+            'name' => [
+                'kaa' => 'ofis stuli',
+                'en' => 'office chair'
             ]
         ]);
 

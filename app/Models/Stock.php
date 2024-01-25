@@ -16,6 +16,10 @@ class Stock extends Model
         'quantity'
     ];
 
+    protected $casts = [
+        'attributes' => 'array'
+    ];
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

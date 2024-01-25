@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\DeliveryMethodController;
@@ -18,10 +17,7 @@ use App\Http\Controllers\UserPaymentCardController;
 use App\Http\Controllers\UserSettingController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
-Route::post('register', [AuthController::class, 'register']);
-Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
+Route::get('products/{product}/related', [ProductController::class, 'related']);
 
 Route::apiResources([
     'categories' => CategoryController::class,
