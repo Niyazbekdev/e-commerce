@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\StatsController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +14,5 @@ Route::prefix('stats')->group(function (){
 });
 
 Route::apiResource('orders', OrderController::class);
+Route::apiResource('products', ProductController::class);
+Route::apiResource('products.images', ProductImageController::class);

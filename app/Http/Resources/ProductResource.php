@@ -20,6 +20,7 @@ class ProductResource extends JsonResource
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
             'order_quantity' => $this->when(isset($this->quantity), $this->quantity),
+            'images' => ImageResource::collection($this->images)
         ];
     }
 }
