@@ -16,3 +16,4 @@ Route::prefix('stats')->group(function (){
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('products.images', ProductImageController::class);
+Route::apiResource('discounts', \App\Http\Controllers\DiscountController::class);

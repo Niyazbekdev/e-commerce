@@ -44,16 +44,22 @@ class OrderController extends Controller
             $product->quantity = $requestProduct['quantity'];
 
             if(
+
+                /*
+                 * Discount price
+                 * Shiipping fee jetkezip beriw senasi
+                 * attribute sena ozgeredi
+                 */
                 $product->stocks()->find($requestProduct['stock_id']) &&
                 $product->stocks()->find($requestProduct['stock_id'])->quantity >= $requestProduct['quantity']
             ){
                 $productWithStock = $product->withStock($requestProduct['stock_id']);
-                $productResource = new ProductResource($productWithStock);
+                $productResource = (new ProductResource($productWithStock))->resolve();
 
-                $sum += $productResource['price'];
-                $products[] = $productResource->resolve();
+                $sum += $productResource['discounted_price'] ?? $productResource['price'];
+                $products[] = $productResource;
             }else{
-                $requestProduct['we have'] = $product->stocks()->find($requestProduct['stock_id'])->quantity;
+                $requestProduct['we_have'] = $product->stocks()->find($requestProduct['stock_id'])->quantity;
                 $notFoundProducts[] = $requestProduct;
             }
         }

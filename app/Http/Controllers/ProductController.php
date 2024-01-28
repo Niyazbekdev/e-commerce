@@ -20,9 +20,9 @@ class ProductController extends Controller
         //
     }
 
-    public function show($id)
+    public function show(Product $product)
     {
-        return Product::with('stocks')->find($id);
+        return new ProductResource($product);
     }
 
     public function update(UpdateProductRequest $request, Product $product)
