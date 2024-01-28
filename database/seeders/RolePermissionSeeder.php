@@ -131,6 +131,7 @@ class RolePermissionSeeder extends Seeder
             Permission::create(['name' => 'payment-type:update']),
             Permission::create(['name' => 'payment-type:delete']),
             Permission::create(['name' => 'payment-type:restore']),
+            Permission::create(['name' => 'discount:create']),
         ]);
 
         $role->syncPermissions($helpDeskPermissions);

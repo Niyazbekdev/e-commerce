@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AssignRoleController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\StatsController;
+use App\Http\Controllers\AssignPermissionController;
+use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('stats')->group(function (){
@@ -16,4 +21,8 @@ Route::prefix('stats')->group(function (){
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('products.images', ProductImageController::class);
-Route::apiResource('discounts', \App\Http\Controllers\DiscountController::class);
+Route::apiResource('discounts', DiscountController::class);
+Route::apiResource('roles', RoleController::class);
+Route::apiResource('assign-roles', AssignRoleController::class);
+Route::apiResource('permissions', PermissionController::class);
+Route::apiResource('assign-permissions', AssignPermissionController::class);
