@@ -35,9 +35,10 @@ class ProductSeeder extends Seeder
                     ],
                     [
                         'attribute_id' => 2,
-                        'value_id' => rand(3,4),
+                        'value_id' => 3,
                     ]
-                ])
+                ]),
+                'added_price' => rand(10000, 60000)
             ]);
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
+use App\Models\DeliveryMethod;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -22,7 +23,8 @@ class OrderController extends Controller
 
     public function index(): JsonResponse
     {
-        if (request()->has('status_id')){
+        if (request()->has('status_id'))
+        {
             return $this->response(
                 OrderResource::collection(auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10))
             );
@@ -38,32 +40,35 @@ class OrderController extends Controller
         $products = [];
         $notFoundProducts = [];
         $address = UserAddress::find($request->address_id);
+        $deliveryMethod = DeliveryMethod::findOrFail($request->delivery_method_id);
 
-        foreach ($request['products'] as $requestProduct){
+        foreach ($request['products'] as $requestProduct)
+        {
             $product = Product::with('stocks')->findOrFail($requestProduct['product_id']);
             $product->quantity = $requestProduct['quantity'];
 
             if(
-
-                /*
-                 * Discount price
-                 * Shiipping fee jetkezip beriw senasi
-                 * attribute sena ozgeredi
-                 */
                 $product->stocks()->find($requestProduct['stock_id']) &&
                 $product->stocks()->find($requestProduct['stock_id'])->quantity >= $requestProduct['quantity']
-            ){
+            )
+            {
                 $productWithStock = $product->withStock($requestProduct['stock_id']);
                 $productResource = (new ProductResource($productWithStock))->resolve();
 
                 $sum += $productResource['discounted_price'] ?? $productResource['price'];
+                $sum += $productWithStock->stocks[0]->added_price;
+
                 $products[] = $productResource;
-            }else{
+            }else
+            {
                 $requestProduct['we_have'] = $product->stocks()->find($requestProduct['stock_id'])->quantity;
                 $notFoundProducts[] = $requestProduct;
             }
         }
-        if($notFoundProducts === [] && $products !== [] && $sum !== 0){
+        if($notFoundProducts === [] && $products !== [] && $sum !== 0)
+        {
+            $sum += $deliveryMethod->sum;
+
             $order = auth()->user()->orders()->create([
                 'comment' => $request->comment,
                 'delivery_method_id' => $request->delivery_method_id,
@@ -74,8 +79,10 @@ class OrderController extends Controller
                 'products' => $products
             ]);
 
-            if($order){
-                foreach ($products as $product){
+            if($order)
+            {
+                foreach ($products as $product)
+                {
                     $stock = Stock::find($product['inventory'][0]['id']);
                     $stock->quantity -= $product['order_quantity'];
                     $stock->save();
@@ -83,7 +90,8 @@ class OrderController extends Controller
             }
 
             return $this->success('order created', $order);
-        }else{
+        }else
+        {
         return $this->error(
             'some product not found or does not have in inventory',
             ['not_found_products' => $notFoundProducts]
